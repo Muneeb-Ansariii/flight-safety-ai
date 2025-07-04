@@ -1,29 +1,43 @@
-import requests
-import os
-from dotenv import load_dotenv
+def get_flight_info(flight_number, date_str):
+    import os
+    import requests
 
-load_dotenv()
+    API_KEY = os.getenv("AERODATABOX_API_KEY")
+    HOST = "aerodatabox.p.rapidapi.com"
 
-def get_flight_info(flight_number):
-    api_key = os.getenv("AVIATIONSTACK_API_KEY")
-    url = f"http://api.aviationstack.com/v1/flights?access_key={api_key}&flight_iata={flight_number}"
+    url = f"https://{HOST}/flights/number/{flight_number}/{date_str}"
+    headers = {
+        "X-RapidAPI-Key": API_KEY,
+        "X-RapidAPI-Host": HOST
+    }
+
+    response = requests.get(url, headers=headers)
+    print("📡 API URL:", response.url)
 
     try:
-        response = requests.get(url)
         data = response.json()
-
-        if data and "data" in data and len(data["data"]) > 0:
-            flight_data = data["data"][0]
-            return {
-                "airline_name": flight_data["airline"]["name"],
-                "airline_code": flight_data["airline"]["iata"],
-                "departure_airport": flight_data["departure"]["airport"],
-                "arrival_airport": flight_data["arrival"]["airport"],
-                "status": flight_data["flight_status"]
-            }
-        else:
-            return None
-
+        print("📦 Raw JSON Response:", data)
     except Exception as e:
-        print("Error fetching flight data:", e)
+        print("❌ JSON Decode Error:", e)
         return None
+
+    if isinstance(data, list) and len(data) > 0:
+        flight = data[0]
+        try:
+            lat = flight["geography"]["latitude"]
+            lon = flight["geography"]["longitude"]
+            coordinates = {"lat": lat, "lon": lon}
+        except:
+            coordinates = None
+
+        return {
+            "airline_code": flight["airline"]["icao"],
+            "airline_name": flight["airline"]["name"],
+            "departure_airport": flight["departure"]["airport"]["name"],
+            "arrival_airport": flight["arrival"]["airport"]["name"],
+            "status": flight["status"],
+            "coordinates": coordinates
+        }
+
+    print("❌ No flight found or unexpected format.")
+    return None
