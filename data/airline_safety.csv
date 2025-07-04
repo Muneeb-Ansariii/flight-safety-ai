@@ -1,5 +1,21 @@
 airline_code,airline_name,incidents,last_5_years_rating
-PK,Pakistan International Airlines,3,2.5
-EK,Emirates,0,5
-BA,British Airways,1,4.7
-QR,Qatar Airways,0,4.9
+PK,Pakistan International Airlines,22,3.0
+EK,Emirates,12,4.5
+QR,Qatar Airways,10,4.7
+AI,Air India,35,2.8
+BA,British Airways,18,4.2
+SQ,Singapore Airlines,8,4.9
+LH,Lufthansa,20,4.0
+TK,Turkish Airlines,25,3.5
+AF,Air France,17,3.9
+UA,United Airlines,28,3.6
+DL,Delta Airlines,15,4.3
+AA,American Airlines,26,3.7
+ET,Ethiopian Airlines,19,4.0
+CX,Cathay Pacific,13,4.6
+QF,Qantas,11,4.8
+EY,Etihad Airways,9,4.6
+SV,Saudi Arabian Airlines,24,3.3
+NH,All Nippon Airways,7,4.8
+KL,KLM Royal Dutch Airlines,14,4.1
+AC,Air Canada,16,4.0
